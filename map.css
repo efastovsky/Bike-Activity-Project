@@ -1,0 +1,96 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    position: relative; /* Ensure relative positioning for absolute child elements */
+}
+
+#map svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Ensure the SVG is above the map */
+    pointer-events: none; /* Allows interaction with the map */
+}
+
+#map svg circle {
+    --color-departures: steelblue;  /* 🔵 Departures */
+    --color-arrivals: darkorange;   /* 🟠 Arrivals */
+
+    --color: color-mix(
+      in oklch,
+      var(--color-departures) calc(100% * var(--departure-ratio)),
+      var(--color-arrivals)
+    );
+
+    fill: var(--color);  /* Apply calculated color */
+    fill-opacity: 0.6;
+    stroke: white;
+    stroke-width: 1.5;
+    pointer-events: auto;
+}
+header {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+}
+
+label {
+    margin-left: auto; /* Push slider to the right */
+}
+
+#selected-time, #any-time {
+    display: block; /* Prevent movement when updating */
+}
+
+#any-time {
+    color: gray; /* Lighten text for (any time) */
+    font-style: italic;
+}
+/* 🚴‍♂️ Legend Styles */
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-block: 15px; /* Space between legend and map */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Creates the small color swatch before text */
+.legend-item span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--color);
+}
+
+/* Moves the color logic to a shared rule */
+#map svg circle, .legend-item span {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+      in oklch,
+      var(--color-departures) calc(100% * var(--departure-ratio)),
+      var(--color-arrivals)
+    );
+    fill: var(--color);
+}
